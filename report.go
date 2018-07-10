@@ -1,6 +1,7 @@
 package iopipe
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"sync"
@@ -14,6 +15,7 @@ type Report struct {
 	agent     *Agent
 	sent      bool
 	startTime time.Time
+	ctx       context.Context
 
 	ClientID      string             `json:"client_id"`
 	InstallMethod string             `json:"installMethod"`
@@ -145,7 +147,7 @@ type CustomMetric struct {
 }
 
 // NewReport instantiates a new IOpipe report
-func NewReport(handler *HandlerWrapper) *Report {
+func NewReport(ctx context.Context, handler *HandlerWrapper) *Report {
 	startTime := time.Now()
 	statStart := readPIDStat()
 
@@ -173,6 +175,7 @@ func NewReport(handler *HandlerWrapper) *Report {
 		agent:     agent,
 		sent:      false,
 		startTime: startTime,
+		ctx:       ctx,
 
 		ClientID:      token,
 		InstallMethod: "manual",

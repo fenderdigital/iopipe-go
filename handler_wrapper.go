@@ -15,6 +15,7 @@ type HandlerWrapper struct {
 	agent           *Agent
 	deadline        time.Time
 	lambdaContext   *lambdacontext.LambdaContext
+	originalContext context.Context
 	originalHandler interface{}
 	report          *Report
 	wrappedHandler  lambdaHandler
@@ -38,7 +39,7 @@ func (hw *HandlerWrapper) Invoke(ctx context.Context, payload interface{}) (resp
 	ctx = NewContext(ctx, cw)
 	hw.deadline, _ = ctx.Deadline()
 
-	hw.report = NewReport(hw)
+	hw.report = NewReport(ctx, hw)
 
 	hw.preInvoke(ctx, payload)
 

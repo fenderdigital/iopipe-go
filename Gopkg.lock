@@ -19,6 +19,53 @@
   version = "v1.0.1"
 
 [[projects]]
+  name = "github.com/aws/aws-sdk-go"
+  packages = [
+    "aws",
+    "aws/awserr",
+    "aws/awsutil",
+    "aws/client",
+    "aws/client/metadata",
+    "aws/corehandlers",
+    "aws/credentials",
+    "aws/ec2metadata",
+    "aws/endpoints",
+    "aws/request",
+    "internal/sdkio",
+    "internal/sdkrand",
+    "internal/shareddefaults"
+  ]
+  revision = "eeb327a02aac261d701e102e14993eae4d5ab844"
+  version = "v1.14.24"
+
+[[projects]]
+  name = "github.com/aws/aws-xray-sdk-go"
+  packages = [
+    "header",
+    "internal/plugins",
+    "pattern",
+    "resources",
+    "strategy/ctxmissing",
+    "strategy/exception",
+    "strategy/sampling",
+    "xray"
+  ]
+  revision = "32670489212454717deeafb8da5dbb1da0299749"
+  version = "v0.9.4"
+
+[[projects]]
+  name = "github.com/cihub/seelog"
+  packages = ["."]
+  revision = "d2c6e5aa9fbfdd1c624e140287063c7730654115"
+  version = "v2.6"
+
+[[projects]]
+  name = "github.com/go-ini/ini"
+  packages = ["."]
+  revision = "06f5f3d67269ccec1fe5fe4134ba6e982984f7f5"
+  version = "v1.37.0"
+
+[[projects]]
   name = "github.com/go-ole/go-ole"
   packages = [
     ".",
@@ -34,10 +81,30 @@
   revision = "fcfa75a46cca3b1ed8b2c75c4f6f0a88df581baa"
 
 [[projects]]
+  name = "github.com/iopipe/iopipe-go"
+  packages = [
+    ".",
+    "example/golambdainvoke"
+  ]
+  revision = "a41cd8f1cda389ef94da44bbf9ab03201f886c59"
+  version = "v0.1.1"
+
+[[projects]]
+  name = "github.com/jmespath/go-jmespath"
+  packages = ["."]
+  revision = "0b12d6b5"
+
+[[projects]]
   name = "github.com/jtolds/gls"
   packages = ["."]
   revision = "77f18212c9c7edc9bd6a33d383a7b545ce62f064"
   version = "v4.2.1"
+
+[[projects]]
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
 
 [[projects]]
   name = "github.com/shirou/gopsutil"
@@ -93,6 +160,15 @@
 
 [[projects]]
   branch = "master"
+  name = "golang.org/x/net"
+  packages = [
+    "context",
+    "context/ctxhttp"
+  ]
+  revision = "039a4258aec0ad3c79b905677cceeab13b296a77"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/sys"
   packages = [
     "unix",
@@ -103,6 +179,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "abb0239342e15079f0955b86f35d26fbe4ebe9981ad8c42573f7fba4430a7707"
+  inputs-digest = "7a88dbfb2b9059f78723dd3c3acb39ac13d995536beb2268c7bc3c6962a0132e"
   solver-name = "gps-cdcl"
   solver-version = 1

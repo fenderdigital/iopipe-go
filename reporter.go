@@ -8,6 +8,9 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/aws/aws-xray-sdk-go/xray"
+	"golang.org/x/net/context/ctxhttp"
 )
 
 func getBaseURL(region string) string {
@@ -43,7 +46,7 @@ func sendReport(report *Report) error {
 		MaxIdleConns:      1, // is this equivalent to the maxCachedSessions in the js implementation
 	}
 
-	httpsClient := http.Client{Transport: tr, Timeout: networkTimeout}
+	httpsClient := xray.Client(&http.Client{Transport: tr, Timeout: networkTimeout})
 
 	reportJSONBytes, _ := json.Marshal(report) //.MarshalIndent(report, "", "  ")
 
@@ -57,7 +60,7 @@ func sendReport(report *Report) error {
 
 	req.Header.Set("Content-Type", "application/json")
 
-	res, err := httpsClient.Do(req)
+	res, err := ctxhttp.Do(report.ctx, httpsClient, req)
 	if err != nil {
 		return err
 	}

@@ -4,13 +4,26 @@ import (
 	"context"
 	"fmt"
 	"math/rand"
+	"os"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/aws/aws-lambda-go/lambdacontext"
+	"github.com/aws/aws-xray-sdk-go/strategy/ctxmissing"
+	"github.com/aws/aws-xray-sdk-go/xray"
 	. "github.com/smartystreets/goconvey/convey"
 )
+
+func TestMain(m *testing.M) {
+	if err := xray.Configure(xray.Config{
+		ContextMissingStrategy: ctxmissing.NewDefaultLogErrorStrategy(),
+	}); err != nil {
+		panic(fmt.Sprintf("error configuring xray: %+v", err))
+	}
+	retCode := m.Run()
+	os.Exit(retCode)
+}
 
 func TestHandlerWrapper_NewHandlerWrapper(t *testing.T) {
 	Convey("Should wrap a handler function", t, func() {
@@ -40,7 +53,7 @@ func TestHandlerWrapper_Error(t *testing.T) {
 		})
 
 		Convey("Add an error to the report", func() {
-			r := NewReport(hw)
+			r := NewReport(context.TODO(), hw)
 			hw.report = r
 
 			So(r.Errors, ShouldResemble, &struct{}{})
@@ -282,7 +295,7 @@ func TestHandlerWrapper_Label(t *testing.T) {
 		})
 
 		Convey("Add a label to the report", func() {
-			r := NewReport(hw)
+			r := NewReport(context.TODO(), hw)
 			hw.report = r
 
 			So(len(r.labels), ShouldEqual, 0)
@@ -294,7 +307,7 @@ func TestHandlerWrapper_Label(t *testing.T) {
 		})
 
 		Convey("Does not add label if name is too long", func() {
-			r := NewReport(hw)
+			r := NewReport(context.TODO(), hw)
 			hw.report = r
 
 			So(len(r.labels), ShouldEqual, 0)
@@ -317,7 +330,7 @@ func TestHandlerWrapper_Metric(t *testing.T) {
 		})
 
 		Convey("Add a custom string metric to the report", func() {
-			r := NewReport(hw)
+			r := NewReport(context.TODO(), hw)
 			hw.report = r
 
 			So(len(hw.report.CustomMetrics), ShouldEqual, 0)
@@ -326,7 +339,7 @@ func TestHandlerWrapper_Metric(t *testing.T) {
 		})
 
 		Convey("Add a custom numeric metric to the report", func() {
-			r := NewReport(hw)
+			r := NewReport(context.TODO(), hw)
 			hw.report = r
 
 			So(len(hw.report.CustomMetrics), ShouldEqual, 0)
@@ -335,7 +348,7 @@ func TestHandlerWrapper_Metric(t *testing.T) {
 		})
 
 		Convey("Does not add metric if name is too long", func() {
-			r := NewReport(hw)
+			r := NewReport(context.TODO(), hw)
 			hw.report = r
 
 			So(len(hw.report.CustomMetrics), ShouldEqual, 0)
@@ -344,7 +357,7 @@ func TestHandlerWrapper_Metric(t *testing.T) {
 		})
 
 		Convey("Does not add metric if value is not string or number", func() {
-			r := NewReport(hw)
+			r := NewReport(context.TODO(), hw)
 			hw.report = r
 
 			So(len(hw.report.CustomMetrics), ShouldEqual, 0)

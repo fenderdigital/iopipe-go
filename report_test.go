@@ -2,6 +2,7 @@ package iopipe
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"log"
 	"testing"
@@ -16,7 +17,7 @@ func TestReport_NewReport(t *testing.T) {
 		hw := &HandlerWrapper{agent: a}
 
 		Convey("Report generated on empty wrapper adheres to spec", func() {
-			r := NewReport(hw)
+			r := NewReport(context.TODO(), hw)
 			r.prepare(nil)
 
 			reportJSONBytes, err := json.Marshal(r)

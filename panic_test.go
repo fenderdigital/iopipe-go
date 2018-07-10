@@ -39,7 +39,7 @@ func TestPanic_NewPanicInvocationError(t *testing.T) {
 
 			Convey("The first stack frame in NewPanicInvocationError refers to the panic inside the child function", func() {
 				So(*panicErr.StackTrace[0], ShouldResemble, panicErrorStackFrame{
-					Path:     "github.com/iopipe/iopipe-go/panic_test.go",
+					Path:     "github.com/fenderdigital/iopipe-go/panic_test.go",
 					Line:     12,
 					Function: "testFunctionThatPanics",
 				})
@@ -159,7 +159,7 @@ func TestPanic_runtimeStackTrace(t *testing.T) {
 
 		frame := panicInfo.StackTrace[0]
 
-		So(frame.Path, ShouldEqual, "github.com/iopipe/iopipe-go/panic_test.go")
+		So(frame.Path, ShouldEqual, "github.com/fenderdigital/iopipe-go/panic_test.go")
 		// So(frame.Line, ShouldEqual, 153)
 		So(frame.Function, ShouldEqual, "TestPanic_runtimeStackTrace.func1")
 	})
